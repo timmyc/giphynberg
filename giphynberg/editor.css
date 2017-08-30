@@ -1,0 +1,18 @@
+.gutenberg .giphynberg__results {
+	list-style-type: none;
+	margin-top: 1em;
+}
+
+.giphynberg__placeholder .components-placeholder__fieldset {
+	max-width: 100%;
+}
+
+.giphynberg__placeholder .components-placeholder__fieldset input {
+	width: 60%;
+}
+
+.giphynberg__results li {
+	display: inline-block;
+	padding-right: 1em;
+	cursor: pointer;
+}
