@@ -1,7 +1,7 @@
-( function( blocks, i18n, element, components, $, _ ) {
+( function( blocks, i18n, element, components, $, _, giphy_api_key ) {
 	var el = element.createElement;
 	var __ = i18n.__;
-	var GIPHY_API_KEY = '3d128764d40343e19c52aceecafad2e5';
+	var GIPHY_API_KEY = giphy_api_key;
 
 	blocks.registerBlockType( 'giphynberg/giphy', {
 		title: __( 'Giphy', 'giphynberg' ),
@@ -95,5 +95,6 @@
 	window.wp.element,
 	window.wp.components,
 	jQuery,
-	_
+	_,
+	window._giphynberg_giphy_api_key
 );
