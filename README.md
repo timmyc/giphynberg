@@ -9,7 +9,6 @@
 (_______)\_______/|/       |/     \|   \_/   |/    )_)|/ \___/ (_______/|/   \__/(_______)
 ```
 
-```
 # giphynberg
 
 When two great powers combine, [giphy](https://giphy.com/) and [gutenberg](https://github.com/WordPress/gutenberg), you get giphynberg! This is a demo block to show how it is easy and fun to make custom blocks for gutenberg, and was part of a talk I am giving for the [Bend WordPress Meetup](https://www.meetup.com/Bend-WordPress-Meetup/).
