@@ -1,4 +1,8 @@
 .gutenberg .giphynberg__results {
+	width: 100%;
+}
+
+.gutenberg .giphynberg__results ul {
 	list-style-type: none;
 	margin-top: 1em;
 }

@@ -3,6 +3,8 @@
 	var __ = i18n.__;
 	var GIPHY_API_KEY = giphy_api_key;
 
+	var giphySearchUrl = 'https://api.giphy.com/v1/gifs/search?api_key=' + GIPHY_API_KEY + '&limit=10&offset=0&rating=G&lang=en&q='
+
 	blocks.registerBlockType( 'giphynberg/giphy', {
 		title: __( 'Giphy', 'giphynberg' ),
 		icon: 'format-image',
@@ -12,9 +14,12 @@
 				type: 'string',
 			}
 		},
+		
+		// This method is what renders the block in editor.
 		edit: function( props ) {
 			var results = [];
 			var attributes = props.attributes;
+			var loading;
 
 			var setSelectedGiphy = function( value ) {
 				props.setAttributes( {
@@ -31,7 +36,7 @@
 					fetching: true,
 				} );
 
-				$.getJSON( 'https://api.giphy.com/v1/gifs/search?api_key=' + GIPHY_API_KEY + '&q=' + encodeURI( search ) + '&limit=10&offset=0&rating=G&lang=en' )
+				$.getJSON( giphySearchUrl + encodeURI( search ) )
 					.success( function( data ) {
 						props.setAttributes( {
 							fetching: false,
@@ -43,7 +48,10 @@
 					} );
 			}, 1000 );
 
+			// If there is no url set, show the search form.
 			if ( ! attributes.url ) {
+
+				// If there are results, create thumbnails to select from.
 				if ( attributes.matches && attributes.matches.length ) {
 					results = _.map( attributes.matches, function( item ) {
 						return el( 'li', {
@@ -60,32 +68,47 @@
 					} );
 				};
 
+				// If there is a giphy request happening, lets show a spinner.
+				if ( ! results.length && attributes.fetching ) {
+					results = el( 'li', { key: 'loading' },
+						components.Spinner( { key: 'loading' } )
+					);
+				}
+
 				return components.Placeholder( {
 					className: 'giphynberg__placeholder',
 					icon: 'format-image',
-					label: 'Search for the perfect GIF!',
+					label: __( 'Search for the perfect GIF!', 'giphynberg' ),
 					children: [
 						el( 'input', {
 							type: 'text',
 							key: 'search-field',
-							placeholder: 'Enter Search Term Here',
+							placeholder: __( 'Enter Search Term Here', 'giphynberg' ),
 							onChange: function( event ) {
 								fetchGiphyResults( event.target.value );
 							}
 						} ),
-						el( 'ul', {
+						el( 'div', {
 							className: 'giphynberg__results',
-							key: 'results'
-						}, results )
+							key: 'results-wrapper'
+							},
+								el( 'ul', {
+									key: 'results'
+								}, results )
+						)
 					]
 				} );
 			} else {
 				return el( 'img', { src: attributes.url } );
 			}
 		},
+
+		// This generates what is persisted in `post_content`.
 		save: function( props ) {
 			if ( props.attributes.url ) {
-				return el( 'img', { src: props.attributes.url } );
+				return el( 'article', {},
+					el( 'img', { src: props.attributes.url } )
+				);
 			}
 		},
 	} );
