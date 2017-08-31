@@ -86,6 +86,15 @@
 							placeholder: __( 'Enter Search Term Here', 'giphynberg' ),
 							onChange: function( event ) {
 								fetchGiphyResults( event.target.value );
+							},
+							onKeyUp: function( event ) {
+								// If the esc key is pressed, clear out the field and matches.
+								if ( event.keyCode === 27 ) {
+									event.target.value = '';
+									props.setAttributes( {
+										matches: []
+									} );
+								}
 							}
 						} ),
 						el( 'div', {
@@ -99,6 +108,8 @@
 					]
 				} );
 			} else {
+
+				// If a url is set, show the giphy gif.
 				return el( 'img', { src: attributes.url } );
 			}
 		},
